@@ -26,7 +26,7 @@
 # [*noops*]
 #   Set noop metaparameter to true for all the resources managed by the module.
 #   Basically you can run a dryrun for this specific module if you set
-#   this to true. Default: false
+#   this to true. Default: undef
 #
 # Default class params - As defined in package42::params.
 # Note that these variables are mostly defined and used in the module itself,
@@ -55,7 +55,6 @@ class package42 (
   ) inherits package42::params {
 
   $bool_absent=any2bool($absent)
-  $bool_noops=any2bool($noops)
 
   ### Definition of some variables used in the module
   $manage_package = $package42::bool_absent ? {
@@ -67,7 +66,7 @@ class package42 (
   if ! defined(Package[$package42::package]) {
     package { $package42::package:
       ensure  => $package42::manage_package,
-      noop    => $package42::bool_noops,
+      noop    => $package42::noops,
     }
   }
 
